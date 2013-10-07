@@ -17,36 +17,45 @@ def representation(model, field_names=[]):
     return retval + u')'
 representation.max_fields = 5
 
+
 class Substance(models.Model):
     name = models.CharField(max_length=64,
         help_text=_('Common English name for a chemical compound, food item, or food component.'))
-    component = models.ManyToManyField('Substance', through='SubstanceComponent', symmetrical=False, related_name="components",
-        blank=True)
+    component = models.ManyToManyField('Substance', through='SubstanceComponent', symmetrical=False, related_name='components')
+    synonym = models.ManyToManyField('Name', through='SubstanceName', related_name='synonyms')
  
     def __unicode__(self):
         return representation(self)
 
-# class Name(models.Model):
-#     name = models.CharField(max_length=64, 
-#         help_text=_('Alternative name (slang, foreign language, scientific) for a food iterm or component.'))
-#     substance = models.ForeignKey(Substance)
-#     scientific = models.BooleanField(
-#         help_text=_('Whether the name is a scientific chemical name.'))
-
 
 class SubstanceComponent(models.Model):
     # to avoid the target model having a reverse relationship to this one set related_name='+' or end the related_name with a +
-    substance = models.ForeignKey(Substance, related_name='+')
-    component = models.ForeignKey(Substance, related_name='+')
+    substance = models.ForeignKey(Substance, related_name='substance+')
+    component = models.ForeignKey(Substance, related_name='component+')
     portion = models.FloatField(
         help_text=_('Fraction or portion of a substance (0 < fraction < 1), by weight, made up of the component.'))
 
-# class Nutrient(models.Model):
-#     """Vitamin, Mineral or other chemical compound with generally positive nutritional value and a nonzero US RDA"""
-#     name = models.CharField(max_length=64, 
-#         help_text=_('Common English name for a chemical compound, food item, or food component.'))
-#     rda = models.FloatField( 
-#         help_text=_("United States Food and Drug Administration's recommended Daily Allowance in kilograms."))
-#     substance = models.ForeignKey(Substance)
 
-print 'done with models'
+class Name(models.Model):
+    name = models.CharField(max_length=64, 
+        help_text=_('Alternative name (slang, foreign language, scientific) for a food iterm or component.'))
+    substance = models.ForeignKey(Substance, related_name='substances')
+    scientific = models.BooleanField(
+        help_text=_('Whether the name is a scientific chemical name.'))
+
+
+class SubstanceName(models.Model):
+    # to avoid the target model having a reverse relationship to this one set related_name='+' or end the related_name with a +
+    substance = models.ForeignKey(Substance)
+    name = models.ForeignKey(Name)
+    portion = models.FloatField(
+        help_text=_('Fraction or portion of a substance (0 < fraction < 1), by weight, made up of the component.'))
+
+
+class Nutrient(models.Model):
+    """Vitamin, Mineral or other chemical compound with generally positive nutritional value and a nonzero US RDA"""
+    name = models.CharField(max_length=64, 
+        help_text=_('Common English name for a chemical compound, food item, or food component.'))
+    rda = models.FloatField( 
+        help_text=_("United States Food and Drug Administration's recommended Daily Allowance in kilograms."))
+    substance = models.ForeignKey(Substance)
