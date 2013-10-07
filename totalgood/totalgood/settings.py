@@ -1,9 +1,9 @@
 # Django settings for totalgood project.
 
 import os
-from sys import stderr
+# from sys import stderr
 
-# Don't import ANYTHING from Django except this (Two Scoops)
+# # Don't import ANYTHING from Django except this (Two Scoops)
 
 
 def env(var_name):
@@ -13,11 +13,11 @@ def env(var_name):
         return os.environ[var_name]
     except:
         from traceback import format_exc
-        error_msg = "Set the %s environment variable" % var_name
-        stderr.write(format_exc())
-        stderr.write(error_msg + '\n')
-        #from django.core.exceptions import ImproperlyConfigured
-        #raise(ImproperlyConfigured(msg))
+        error_msg = str(format_exc()) + "Set the %s environment variable" % var_name
+        #stderr.write(format_exc())
+        #stderr.write(error_msg + '\n')
+        from django.core.exceptions import ImproperlyConfigured
+        raise(ImproperlyConfigured(error_msg))
 
 
 BASE_DIR = os.path.realpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
@@ -40,7 +40,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.realpath(os.path.join(BASE_DIR, '..', 'data', 'food.sqlite3')),
+        'NAME':  os.path.realpath(os.path.join(BASE_DIR, '..', 'data', 'food.sqlite3')),
         'USER': '',
         'PASSWORD': '',
         'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
@@ -140,10 +140,13 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
+    
+    'south',
     'rest_framework',
     'food',
 )
