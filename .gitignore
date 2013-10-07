@@ -1,0 +1,6 @@
+food/totalgood/totalgood/settings/local_untracked.py
+*.pyc
+*.pyo
+*.sqlite3
+*.sock
+bin/
