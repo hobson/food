@@ -5,8 +5,8 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^$', 'totalgood.views.home', name='home'),
-    url(r'^food/', include('totalgood.food.urls')),
+    url(r'^', include('food.urls')),
+    #url(r'^$', 'totalgood.views.home', name='home'),
     # url(r'^chart/', include('totalgood.chart.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
@@ -17,24 +17,3 @@ urlpatterns = patterns('',
 )
 
 
-#from django.contrib.auth.models import User, Group
-from food.models import Vitamin
-
-from rest_framework import viewsets, routers
-
-class VitaminViewSet(viewsets.ModelViewSet):
-    model = Vitamin
-
-# Routers provide an easy way of automatically determining the URL conf
-router = routers.DefaultRouter()
-router.register(r'jobs', VitaminViewSet)
-
-# Wire up API using automatic URL routing.
-# Additionally, we include login URLs for the browseable API.
-urlpatterns += patterns('',
-    url(r'^api/', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-)
-
-
-print 'done with urls'

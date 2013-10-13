@@ -43,6 +43,9 @@ class Name(models.Model):
     scientific = models.BooleanField(
         help_text=_('Whether the name is a scientific chemical name.'))
 
+    def __unicode__(self):
+        return representation(self)
+
 
 class SubstanceName(models.Model):
     # to avoid the target model having a reverse relationship to this one set related_name='+' or end the related_name with a +
@@ -50,6 +53,9 @@ class SubstanceName(models.Model):
     name = models.ForeignKey(Name)
     portion = models.FloatField(
         help_text=_('Fraction or portion of a substance (0 < fraction < 1), by weight, made up of the component.'))
+
+    def __unicode__(self):
+        return representation(self)
 
 
 class Nutrient(models.Model):
@@ -59,3 +65,6 @@ class Nutrient(models.Model):
     rda = models.FloatField( 
         help_text=_("United States Food and Drug Administration's recommended Daily Allowance in kilograms."))
     substance = models.ForeignKey(Substance)
+
+    def __unicode__(self):
+        return representation(self)
