@@ -1,0 +1,268 @@
+FD_GROUP -- Food Group Description table -- Foreign Key target for 
+
+FdGrp_Cd = models.CharField(max_length=4, blank=False,
+     help_text="4-digit code identifying a food group. Only the first 2 digits are currently assigned. In the future, the last 2 digits may be used. Codes may not be consecutive.")
+FdGrp_Desc = models.CharField(max_length=60, blank=True,
+     help_text="Name of food group.")
+
+
+LANGUAL -- LanguaL Factor
+
+NDB_No = models.CharField(max_length=5, blank=False,
+     help_text="5-digit Nutrient Databank number that uniquely identifies a food item. If this field is defined as numeric, the leading zero will be lost.")
+Factor_Code = models.CharField(max_length=5, blank=False,
+     help_text="The LanguaL factor from the Thesaurus")
+
+
+LANGDESC -- LanguaL Factors Description
+
+Factor_Code = models.CharField(max_length=5, blank=False,
+     help_text="The LanguaL factor from the Thesaurus. Only those codes used to factor the foods contained in the LanguaL Factor file are included in this file")
+Description = models.CharField(max_length=140, blank=False,
+     help_text="The description of the LanguaL Factor Code from the thesaurus")
+
+
+Nutrient Data File (file name = NUT_DATA)
+
+NDB_No = models.CharField(max_length=5, blank=False,
+     help_text="5-digit Nutrient Databank number.")
+Nutr_No = models.CharField(max_length=3, blank=False,
+     help_text="Unique 3-digit identifier code for a nutrient .")
+Nutr_Val = models.FloatField(blank=True,
+     help_text="N Amount in 100 grams, edible portion †.")
+Num_Data_Pts = models.FloatField(blank=False,
+     help_text="Number of data points (previously called Sample_Ct) is the number of analyses used to calculate the nutrient value. If the number of data points is 0, the value was calculated or imputed.")
+Std_Error = models.FloatField(blank=True,
+     help_text="Standard error of the mean. Null if cannot be calculated. The standard error is also not given if the number of data points is less than three.")
+Src_Cd = models.CharField(max_length=2, blank=False,
+     help_text="Code indicating type of data.")
+Deriv_Cd = models.CharField(max_length=4, blank=True,
+     help_text="Data Derivation Code giving specific information on how the value is determined")
+Ref_NDB_No = models.CharField(max_length=5, blank=True,
+     help_text="NDB number of the item used to impute a missing value. Populated only for items added or updated starting with SR14.")
+Add_Nutr_Mark = models.CharField(max_length=1, blank=True,
+     help_text="Indicates a vitamin or mineral added for fortification or enrichment. This field is populated for ready-to-eat breakfast cereals and many brand-name hot cereals in food group 8.")
+Num_Studies = models.FloatField(blank=True,
+     help_text="Number of studies.")
+Min = models.FloatField(blank=True,
+     help_text="Y Minimum value.")
+Max = models.FloatField(blank=True,
+     help_text="Y Maximum value.")
+DF = models.FloatField(blank=True,
+     help_text="Degrees of freedom.")
+Low_EB = models.FloatField(blank=True,
+     help_text="Y Lower 95% error bound.")
+Up_EB = models.FloatField(blank=True,
+     help_text="Y Upper 95% error bound.")
+Stat_cmt = models.CharField(max_length=10, blank=True,
+     help_text="Statistical comments. See definitions below.")
+AddMod_Date = models.CharField(max_length=10, blank=True,
+     help_text="Indicates when a value was either added to the database or last modified.")
+CC = models.CharField(max_length=1, blank=True,
+     help_text="Confidence Code indicating data quality, based on evaluation of sample plan, sample handling, analytical method, analytical quality control, and number of samples analyzed. Not included in this release, but is planned for future releases.")
+
+
+Nutrient Definition File (file name = NUTR_DEF)
+
+Nutr_No = models.CharField(max_length=3, blank=False,
+     help_text="Unique 3-digit identifier code for a nutrient.")
+Units = models.CharField(max_length=7, blank=False,
+     help_text="Units of measure (mg, g, μg, and so on).")
+Tagname = models.CharField(max_length=20, blank=True,
+     help_text="International Network of Food Data Systems (INFOODS) Tagnames.† A unique abbreviation for a nutrient/food component developed by INFOODS to aid in the interchange of data.")
+NutrDesc = models.CharField(max_length=60, blank=False,
+     help_text="Name of nutrient/food component.")
+Num_Dec = models.CharField(max_length=1, blank=False,
+     help_text="Number of decimal places to which a nutrient value is rounded. ")
+SR_Order = models.FloatField(blank=False,
+     help_text="Used to sort nutrient records in the same order as various reports produced from SR.")
+
+
+Source Code File (file name = SRC_CD)
+
+Src_Cd = models.CharField(max_length=2, blank=False,
+     help_text="2-digit code.")
+SrcCd_Desc = models.CharField(max_length=60, blank=False,
+     help_text="Description of source code that identifies the type of nutrient data.")
+
+
+Data Derivation Code Description File (file name = DERIV_CD)
+
+Deriv_Cd = models.CharField(max_length=4, blank=False,
+     help_text="Derivation Code. ")
+Deriv_Desc = models.CharField(max_length=120, blank=False,
+     help_text="Description of derivation code giving specific information on how the value was determined.")
+
+
+Weight File (file name = WEIGHT). 
+
+NDB_No = models.CharField(max_length=5, blank=False,
+     help_text="5-digit Nutrient Databank number. Primary Key.")
+Seq = models.CharField(max_length=2, blank=False,
+     help_text="Sequence number.")
+Amount = models.FloatField(blank=False,
+     help_text="Unit modifier (for example, 1 in “1 cup”).")
+Msre_Desc = models.CharField(max_length=84, blank=False,
+     help_text="Description (for example, cup, diced, and 1-inch pieces).")
+Gm_Wgt = models.FloatField(blank=False,
+     help_text="Gram weight.")
+Num_Data_Pts = models.FloatField(blank=True,
+     help_text="Number of data points.")
+Std_Dev = models.FloatField(blank=True,
+     help_text="Standard deviation.")
+
+
+Footnote File (file name = FOOTNOTE)
+
+NDB_No = models.CharField(max_length=5, blank=False,
+     help_text="5-digit Nutrient Databank number.")
+Footnt_No = models.CharField(max_length=4, blank=False,
+     help_text="Sequence number. If a given footnote applies to more than one nutrient number, the same footnote number is used. As a result, this file cannot be indexed.")
+Footnt_Typ = models.CharField(max_length=1, blank=False,
+     help_text="Type of footnote: D = footnote adding information to the food description; M = footnote adding information to measure description; N = footnote providing additional information on a nutrient value. If the Footnt_typ = N, the Nutr_No will also be filled in.")
+Nutr_No = models.CharField(max_length=3, blank=True,
+     help_text="Unique 3-digit identifier code for a nutrient to which footnote applies.")
+Footnt_Txt = models.CharField(max_length=200, blank=False,
+     help_text="Footnote text.")
+
+
+Sources of Data Link File (file name = DATSRCLN)
+
+NDB_No = models.CharField(max_length=5, blank=False,
+     help_text="5-digit Nutrient Databank number.")
+Nutr_No = models.CharField(max_length=3, blank=False,
+     help_text="Unique 3-digit identifier code for a nutrient.")
+DataSrc_ID = models.CharField(max_length=6, blank=False,
+     help_text="Unique ID identifying the reference/source.")
+
+
+Sources of Data File (file name = DATA_SRC)
+
+DataSrc_ID = models.CharField(max_length=6, blank=False,
+     help_text="Unique number identifying the reference/source.")
+Authors = models.CharField(max_length=255, blank=True,
+     help_text="List of authors for a journal article or name of sponsoring organization for other documents.")
+Title = models.CharField(max_length=255, blank=False,
+     help_text="Title of article or name of document, such as a report from a company or trade association.")
+Year = models.CharField(max_length=4, blank=True,
+     help_text="Year article or document was published.")
+Journal = models.CharField(max_length=135, blank=True,
+     help_text="Name of the journal in which the article was published.")
+Vol_City = models.CharField(max_length=16, blank=True,
+     help_text="Volume number for journal articles, books, or reports; city where sponsoring organization is located.")
+Issue_State = models.CharField(max_length=5, blank=True,
+     help_text="Issue number for journal article; State where the sponsoring organization is located.")
+Start_Page = models.CharField(max_length=5, blank=True,
+     help_text="Starting page number of article/document.")
+End_Page = models.CharField(max_length=5, blank=True,
+     help_text="Ending page number of article/document.")
+
+
+Abbreviated file (file name = ABBREV) 
+
+NDB_No = models.CharField(max_length=5, blank=False,
+     help_text="5-digit Nutrient Databank number.")
+Shrt_Desc = models.CharField(max_length=60,
+     help_text = "60-character abbreviated description of food item.†")
+Water = models.FloatField(blank=True,
+     help_text="Water (g/100 g)")
+Energ_Kcal = models.FloatField(blank=True,
+     help_text="Food energy (kcal/100 g)")
+Protein = models.FloatField(blank=True,
+     help_text="Protein (g/100 g)")
+Lipid_Tot = models.FloatField(blank=True,
+     help_text="Total lipid (fat)(g/100 g)")
+Ash = models.FloatField(blank=True,
+     help_text="Ash (g/100 g)")
+Carbohydrt = models.FloatField(blank=True,
+     help_text="Carbohydrate, by difference (g/100 g)")
+Fiber_TD = models.FloatField(blank=True,
+     help_text="Total dietary fiber (g/100 g)")
+Sugar_Tot = models.FloatField(blank=True,
+     help_text="Total sugars (g/100 g)")
+Calcium = models.FloatField(blank=True,
+     help_text="Calcium (mg/100 g)")
+Iron = models.FloatField(blank=True,
+     help_text="Iron (mg/100 g)")
+Magnesium = models.FloatField(blank=True,
+     help_text="Magnesium (mg/100 g)")
+Phosphorus = models.FloatField(blank=True,
+     help_text="Phosphorus (mg/100 g)")
+Potassium = models.FloatField(blank=True,
+     help_text="Potassium (mg/100 g)")
+Sodium = models.FloatField(blank=True,
+     help_text="Sodium (mg/100 g)")
+Zinc = models.FloatField(blank=True,
+     help_text="Zinc (mg/100 g)")
+Copper = models.FloatField(blank=True,
+     help_text="Copper (mg/100 g)")
+Manganese = models.FloatField(blank=True,
+     help_text="Manganese (mg/100 g)")
+Selenium = models.FloatField(blank=True,
+     help_text="Selenium (μg/100 g)")
+Vit_C = models.FloatField(blank=True,
+     help_text="Vitamin C (mg/100 g)")
+Thiamin = models.FloatField(blank=True,
+     help_text="Thiamin (mg/100 g)")
+Riboflavin = models.FloatField(blank=True,
+     help_text="Riboflavin (mg/100 g)")
+Niacin = models.FloatField(blank=True,
+     help_text="Niacin (mg/100 g)")
+Panto_acid = models.FloatField(blank=True,
+     help_text="Pantothenic acid (mg/100 g)")
+Vit_B6 = models.FloatField(blank=True,
+     help_text="Vitamin B6 (mg/100 g)")
+Folate_Tot = models.FloatField(blank=True,
+     help_text="Folate, total (μg/100 g)")
+Folic_acid = models.FloatField(blank=True,
+     help_text="Folic acid (μg/100 g)")
+Food_Folate = models.FloatField(blank=True,
+     help_text="Food folate (μg/100 g)")
+Folate_DFE = models.FloatField(blank=True,
+     help_text="Folate (μg dietary folate equivalents/100 g)")
+Choline_Tot = models.FloatField(blank=True,
+     help_text="Choline, total (mg/100 g)")
+Vit_B12 = models.FloatField(blank=True,
+     help_text="Vitamin B12 (μg/100 g)")
+Vit_A_IU = models.FloatField(blank=True,
+     help_text="Vitamin A (IU/100 g)")
+Vit_A_RAE = models.FloatField(blank=True,
+     help_text="Vitamin A (μg retinol activity equivalents/100g)")
+Retinol = models.FloatField(blank=True,
+     help_text="Retinol (μg/100 g)")
+Alpha_Carot = models.FloatField(blank=True,
+     help_text="Alpha-carotene (μg/100 g)")
+Beta_Carot = models.FloatField(blank=True,
+     help_text="Beta-carotene (μg/100 g)")
+Beta_Crypt = models.FloatField(blank=True,
+     help_text="Beta-cryptoxanthin (μg/100 g)")
+Lycopene = models.FloatField(blank=True,
+     help_text="Lycopene (μg/100 g)")
+Lut+Zea = models.FloatField(blank=True,
+     help_text="Lutein+zeazanthin (μg/100 g)")
+Vit_E = models.FloatField(blank=True,
+     help_text="Vitamin E (alpha-tocopherol) (mg/100 g)")
+Vit_D_mcg = models.FloatField(blank=True,
+     help_text="Vitamin D (μg/100 g)")
+Vit_D_IU = models.FloatField(blank=True,
+     help_text="Vitamin D (IU/100 g)")
+Vit_K = models.FloatField(blank=True,
+     help_text="Vitamin K (phylloquinone) (μg/100 g)")
+FA_Sat = models.FloatField(blank=True,
+     help_text="Saturated fatty acid (g/100 g)")
+FA_Mono = models.FloatField(blank=True,
+     help_text="Monounsaturated fatty acids (g/100 g)")
+FA_Poly = models.FloatField(blank=True,
+     help_text="Polyunsaturated fatty acids (g/100 g)")
+Cholestrl = models.FloatField(blank=True,
+     help_text="Cholesterol (mg/100 g)")
+GmWt_1 = models.FloatField(blank=True,
+     help_text="First household weight for this item from the Weight file.")
+GmWt_Desc1 = models.CharField(max_length=120, blank=True,
+     help_text="Description of household weight number 1.")
+GmWt_2 = models.FloatField(blank=True,
+     help_text="Second household weight for this item from the Weight file.")
+GmWt_Desc2 = models.CharField(max_length=120, blank=True,
+     help_text="Description of household weight number 2.")
+Refuse_Pct = models.FloatField(blank=True,
+     help_text="Percent refuse.")
